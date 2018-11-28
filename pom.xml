@@ -4,7 +4,7 @@
 
   <groupId>org.jadice.gwt.spring</groupId>
   <artifactId>gwt-spring-boot-starter-root</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${revision}</version>
 
   <packaging>pom</packaging>
 
@@ -18,7 +18,7 @@
     <gwt.version>2.8.2</gwt.version>
 
     <buildNumber>local</buildNumber>
-    <revision>1.0-${TRAVIS_BUILD_NUMBER}</revision>
+    <revision>1.0-${buildNumber}</revision>
   </properties>
 
   <modules>

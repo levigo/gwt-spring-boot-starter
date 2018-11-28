@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jadice.gwt.spring</groupId>
 		<artifactId>gwt-spring-boot-starter-root</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>gwt-spring-boot-devmode</artifactId>
