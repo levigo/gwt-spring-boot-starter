@@ -15,7 +15,7 @@ stages:
 before_install:
   - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
   - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
-  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version | grep -v '\[' | sed -r -e 's/[-.](snapshot|local)$//i' -e 's/\s+//g')
+  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version | grep -v '\[' | tail -1 | sed -r -e 's/[-.](snapshot|local)$//i' -e 's/\s+//g')
   - export release_version=${project_version}.${TRAVIS_BUILD_NUMBER}
   - echo Truncated version found to be ${project_version}, releasing as ${release_version}
   - mvn versions:set -DnewVersion=${release_version}
