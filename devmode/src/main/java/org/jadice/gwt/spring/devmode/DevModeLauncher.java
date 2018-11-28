@@ -31,6 +31,7 @@ import com.google.gwt.dev.DevMode;
 import com.google.gwt.dev.cfg.ModuleDef;
 import com.google.gwt.dev.util.log.AbstractTreeLogger;
 
+@SuppressWarnings("deprecation")
 public class DevModeLauncher extends WebMvcConfigurerAdapter {
   private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(DevModeLauncher.class);
 

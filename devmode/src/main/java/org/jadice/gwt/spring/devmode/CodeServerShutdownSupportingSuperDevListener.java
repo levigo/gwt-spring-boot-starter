@@ -55,6 +55,8 @@ public class CodeServerShutdownSupportingSuperDevListener implements CodeServerL
 
   /**
    * Listens for new connections from browsers.
+   * @param treeLogger the GWT tree logger
+   * @param options the hosted mode options
    * 
    * @param sourcePaths
    */
