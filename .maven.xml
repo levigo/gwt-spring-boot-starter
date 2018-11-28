@@ -22,31 +22,6 @@
         <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
       </properties>
     </profile>
-    
-    
-    <!-- Map build number from travis -->
-    <profile>
-      <id>buildnumber-defined</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS_BUILD_NUMBER</name>
-        </property>
-      </activation>
-      <properties>
-        <buildNumber>${env.TRAVIS_BUILD_NUMBER}</buildNumber>
-      </properties>
-    </profile>
-    <profile>
-      <id>buildnumber-undefined</id>
-      <activation>
-        <property>
-          <name>!env.TRAVIS_BUILD_NUMBER</name>
-        </property>
-      </activation>
-      <properties>
-        <buildNumber>local</buildNumber>
-      </properties>
-    </profile>
   </profiles>
 </settings>
 

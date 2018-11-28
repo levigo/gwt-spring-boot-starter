@@ -1,10 +1,10 @@
-language: java
+maven snapshot delanguage: java
 dist: xenial
 jdk:
   - openjdk8
 
 # don't build on commits by travis-ci itself
-if: commit_message !~ /Update version number in README/
+if: commit_message !~ /Update version number/
 
 stages:
   - name: deploy
@@ -15,21 +15,22 @@ stages:
 before_install:
   - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
   - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
-
-install: mvn install --settings .maven.xml -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version | grep -v '\[' | sed -r -e 's/[-.](snapshot|local)$//i' -e 's/\s+//g')
+  - export release_version=${project_version}.${TRAVIS_BUILD_NUMBER}
+  - echo Truncated version found to be ${project_version}, releasing as ${release_version}
+  - mvn versions:set -DnewVersion=${release_version}
+  
+install: 
+  - mvn install --settings .maven.xml -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 ## Build
 script: mvn test --settings .maven.xml -B -U
-
-before_deploy:
-  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
-  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
 
 ## Release to maven central
 deploy:
   skip_cleanup: true
   provider: script
-  script: mvn deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
+  # script: mvn deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
   script: echo foo
   on:
     branch: master
@@ -39,7 +40,7 @@ after_deploy:
   - git config --global user.name "Travis CI"
   - git checkout master
   - git reset --hard HEAD
-  - sed -e "s,<version>.*</version>,<version>${project_version}</version>," README.md > README.tmp; mv README.tmp README.md
+  - sed -e "s,<version>.*</version>,<version>${release_version}</version>," README.md > README.tmp; mv README.tmp README.md
   - git add README.md
   - git commit -m "Update version number in README"
   - git remote add origin-bump https://${GITHUB_PUSH_TOKEN}@github.com/levigo/url-crypto-kit.git
