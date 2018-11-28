@@ -1,0 +1,52 @@
+language: java
+dist: xenial
+jdk:
+  - openjdk8
+
+# don't build on commits by travis-ci itself
+if: commit_message !~ /Update version number in README/
+
+stages:
+  - name: deploy
+    # require the branch name to be master (note for PRs this is the base branch name)
+    if: branch = master
+    
+## export GPG details
+before_install:
+  - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+  - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+
+## Build
+script: mvn test --settings .maven.xml -B -U
+
+before_deploy:
+  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
+
+## Release to maven central
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: mvn deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
+  script: echo foo
+  on:
+    branch: master
+
+after_deploy:
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git checkout master
+  - git reset --hard HEAD
+  - sed -e "s,<version>.*</version>,<version>${project_version}</version>," README.md > README.tmp; mv README.tmp README.md
+  - git add README.md
+  - git commit -m "Update version number in README"
+  - git remote add origin-bump https://${GITHUB_PUSH_TOKEN}@github.com/levigo/url-crypto-kit.git
+  - git push origin-bump master
+
+cache:
+  directories:
+    - ~/.m2/repository
+
+notifications:
+  slack:
+    secure: TOBgLS6rIoLISAk/Pu/vx85z6e4COEeulND3D71qXVGhesYwcA1B7f9mlJJYtxur+BFyo1pEkRISbTOFIA5++g88f9/oWx84tZQoLW78kXWKZbSLxwiutvP08YuGD54ea4GXhvg9jHq+GO40Jego3TLXsNfpkketZsxInDWJzrCg2B8wOECDi7GIoXn0G+KNpUM1Zzskw+FqvLiazGBV2jqwKF6042Pq60izllHkfFXaBd5lMh9B21yZ6irlfX2++54UXkvgTlzZRw1HG4IzJuE+pO5/Tyim6tgBfa+aS/2kXf2j1KExT/4GyLx55D8Ekv/yRR1PEQ0HH0jHSOdBmZDUSSm8OMnJMAsd4oDMYcyIgHe34AP8pnhcAsAOr/crsOptvyvgGRXqpEdnyot1uZNC0pAHHhTKWOpyat5sQ2aFpohz9klzZedItWGszFcX8uo3mQJ1eW8ge63humxoSXLsayLK4VOELLB+LQlr0+BS9EV6dkuJP+qmLvk9Qx09PcGhTe7uHxVZQvhVt+pDsMQ8nSNwxcFIwLlkIa2f64rd+Gz204LnPt9TWW0nc2RQT9/G8xTQamQccf5o+kf2ojq7G62SeaJpTnzQORcxnku8yl3cOCVbn4de2GD6rqa7bVk+tYyvH+dvYFWQp8Xl1F8OWdGnZ5WruC00siwOMvA=
