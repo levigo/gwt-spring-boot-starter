@@ -16,6 +16,8 @@ before_install:
   - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
   - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
 
+install: mvn install --settings .maven.xml -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
 ## Build
 script: mvn test --settings .maven.xml -B -U
 
