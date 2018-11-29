@@ -30,8 +30,7 @@ script: mvn test --settings .maven.xml -B -U
 deploy:
   skip_cleanup: true
   provider: script
-  # script: mvn deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
-  script: echo foo
+  script: mvn deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
   on:
     branch: master
 
