@@ -43,6 +43,7 @@ after_deploy:
   - git add README.md
   - git commit -m "Update version number in README"
   - git remote add origin-bump https://${GITHUB_PUSH_TOKEN}@github.com/levigo/url-crypto-kit.git
+  - git pull --ff-only origin-bump
   - git push origin-bump master
 
 cache:
