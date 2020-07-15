@@ -13,7 +13,7 @@ __Maven dependency__
     <dependency>
         <groupId>org.jadice.gwt.spring</groupId>
         <artifactId>gwt-spring-boot-starter</artifactId>
-        <version>1.0-31</version>
+        <version>1.0.8</version>
     </dependency>
 
 ## License
