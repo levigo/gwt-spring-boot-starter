@@ -1,7 +1,7 @@
 package org.jadice.gwt.spring.devmode;
 
-import static java.util.Arrays.*;
-import static java.util.stream.Collectors.*;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,9 +106,11 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
 
     private final List<String> loadedModules = new ArrayList<>();
     private final ArrayList<URL> sourcePaths;
+    private final DevModeConfiguration config;
 
-    public SpringSupportDevMode(final ArrayList<URL> sourcePaths) {
+    public SpringSupportDevMode(final ArrayList<URL> sourcePaths, final DevModeConfiguration config) {
       this.sourcePaths = sourcePaths;
+      this.config = config;
     }
 
     @Override
@@ -132,6 +134,9 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
               LOGGER.isWarnEnabled() ? Type.WARN : //
                   Type.ERROR);
 
+      // copy configuration properties
+      options.setOutput(config.getOutput());
+      
       // FIXME: perform dynamic allocation
       options.setCodeServerPort(9876);
       System.setProperty("gwt.codeserver.port", "9876");
@@ -208,6 +213,8 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
       "../../src/main/java", "../../src/main/resources", "../../src/test/java", "../../src/test/resources"
   };
 
+  private final DevModeConfiguration config;
+
   @PostConstruct
   public void launchDevMode() {
     workDirectory = new File(".springboot-gwt-devmode");
@@ -264,7 +271,7 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
         stdClassLoader);
     ClassLoader currentCCL = Thread.currentThread().getContextClassLoader();
     try {
-      devMode = new SpringSupportDevMode(sourcePaths);
+      devMode = new SpringSupportDevMode(sourcePaths, config);
 
       devMode.configure(getWarDirectory(), moduleNames);
 
@@ -280,6 +287,11 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
     }
   }
 
+  @Autowired
+  public DevModeLauncher(final DevModeConfiguration config) {
+    this.config = config;
+  }
+  
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     for (String moduleName : devMode.getLoadedModules()) {
