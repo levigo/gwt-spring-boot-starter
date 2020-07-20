@@ -18,7 +18,7 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
 
     <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
-    <gwt.version>2.8.2</gwt.version>
+    <gwt.version>2.9.0</gwt.version>
   </properties>
 
   <modules>
