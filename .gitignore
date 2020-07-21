@@ -43,3 +43,6 @@ gwt-unitCache/
 *.ids
 *.orig
 /.factorypath
+
+**/WEB-INF/deploy/**
+**/webapp/springdemo/
