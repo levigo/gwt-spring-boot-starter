@@ -10,6 +10,8 @@ import com.google.gwt.dev.util.arg.OptionScriptStyle;
 @Component
 public class DevModeConfiguration implements OptionScriptStyle {
   private JsOutputOption outputOption = JsOutputOption.PRETTY;
+  
+  private boolean generateJsInteropExports = true;
 
   @Override
   public JsOutputOption getOutput() {
@@ -19,5 +21,13 @@ public class DevModeConfiguration implements OptionScriptStyle {
   @Override
   public void setOutput(final JsOutputOption obfuscated) {
     this.outputOption = obfuscated;
+  }
+
+  public boolean isGenerateJsInteropExports() {
+    return generateJsInteropExports;
+  }
+
+  public void setGenerateJsInteropExports(boolean generateJsInteropExports) {
+    this.generateJsInteropExports = generateJsInteropExports;
   }
 }
