@@ -129,6 +129,7 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
       options.setModuleNames(moduleNames);
       options.setLogLevel(Type.DEBUG);
       options.setSuperDevMode(true);
+      options.setGenerateJsInteropExports(true);
       options.setLogLevel(LOGGER.isDebugEnabled() ? Type.DEBUG : //
           LOGGER.isInfoEnabled() ? Type.INFO : //
               LOGGER.isWarnEnabled() ? Type.WARN : //
@@ -139,6 +140,8 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
       
       // FIXME: perform dynamic allocation
       options.setCodeServerPort(9876);
+      options.setGenerateJsInteropExports(config.isGenerateJsInteropExports());
+      
       System.setProperty("gwt.codeserver.port", "9876");
 
       setHeadless(true);
