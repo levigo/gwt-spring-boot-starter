@@ -58,7 +58,7 @@ jobs:
     - name: Deploy package
       env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            REPOSITORY_URL: ${{ secrets.LEVIGO_NEXUS_REPO_ALL  }}
+            REPOSITORY_URL: ${{ secrets.NEXUS2_REPO_RELEASES  }}
             REPOSITORY_USERID: ${{ secrets.PUB_NEXUS2_USERNAME_RW }}
             REPOSITORY_CREDENTIALS: ${{ secrets.PUB_NEXUS2_PASSWORD_RW }}
       run: |
