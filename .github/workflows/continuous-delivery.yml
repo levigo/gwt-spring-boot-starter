@@ -59,8 +59,8 @@ jobs:
       env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             REPOSITORY_URL: ${{ secrets.LEVIGO_NEXUS_REPO_ALL  }}
-            REPOSITORY_USERID: ${{ secrets.PUB_NEXUS2_USERNAME }}
-            REPOSITORY_CREDENTIALS: ${{ secrets.PUB_NEXUS2_PASSWORD }}
+            REPOSITORY_USERID: ${{ secrets.PUB_NEXUS2_USERNAME_RW }}
+            REPOSITORY_CREDENTIALS: ${{ secrets.PUB_NEXUS2_PASSWORD_RW }}
       run: |
         mkdir -p ~/.m2
         echo "<settings><servers><server><id>neverpile</id><username>${REPOSITORY_USERID}</username><password>${REPOSITORY_CREDENTIALS}</password></server></servers></settings>" > ~/.m2/settings.xml 
