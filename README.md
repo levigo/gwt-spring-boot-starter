@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/levigo/gwt-spring-boot-starter/workflows/Continuous%20Delivery/badge.svg)](https://github.com/levigo/gwt-spring-boot-starter/actions)
 [![Docker Hub](https://img.shields.io/badge/MADE%20with-JAVA-RED.svg)](#JAVA)
-[![Generic badge](https://img.shields.io/badge/current%20version-1.0.25-1abc9c.svg)](https://github.com/levigo/gwt-spring-boot-starter/tree/v1.0.25)
+[![Generic badge](https://img.shields.io/badge/current%20version-1.1.0-1abc9c.svg)](https://github.com/levigo/gwt-spring-boot-starter/tree/v1.1.0)
 
 # A Spring-Boot Starter for Google Web Toolkit (GWT) applications
 
@@ -15,7 +15,7 @@ __Maven dependency__
     <dependency>
         <groupId>org.jadice.gwt.spring</groupId>
         <artifactId>gwt-spring-boot-starter</artifactId>
-        <version>1.0.25</version>
+        <version>1.1.0</version>
     </dependency>
 
 ## License
