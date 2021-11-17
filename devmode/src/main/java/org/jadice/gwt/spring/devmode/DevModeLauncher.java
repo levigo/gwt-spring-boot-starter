@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.joining;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -244,12 +245,41 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
     ArrayList<URL> sourcePaths = new ArrayList<>();
 
     ClassLoader stdClassLoader = getClass().getClassLoader();
-    if (stdClassLoader instanceof URLClassLoader) {
+
+    final Class<? extends ClassLoader> classLoaderClazz = stdClassLoader.getClass();
+    final String classLoaderName = classLoaderClazz.getSimpleName();
+
+    URL[] urls = null;
+
+    // We need to do some black magic to make this work with both JDK 8 and 11.
+    // The class loader passed in here is always an AppClassLoader.
+    // In JDK 8 it extended URLClassLoader, in JDK 11, it doesn't.
+    // The URLs are still present in JDK 11, but you have to extract them forcibly
+    // via reflection. This also means that you will have to "--add-opens" the java.base
+    // module.
+
+    if (stdClassLoader instanceof URLClassLoader) { // Java 8
       @SuppressWarnings("resource")
       URLClassLoader ucl = (URLClassLoader) stdClassLoader;
-      for (URL url : ucl.getURLs()) {
+      urls = ucl.getURLs();
+
+    } else if (classLoaderName.equals("AppClassLoader")) { // Java 11. Same ClassLoader, different hierarchy.
+      try {
+        Field field = classLoaderClazz.getDeclaredField("ucp");
+        field.setAccessible(true);
+        Object ucp = field.get(stdClassLoader);
+
+        // Who thought it was a good idea to relocate URLClassPath over JDKs?
+        urls = (URL[]) ucp.getClass().getDeclaredMethod("getURLs").invoke(ucp);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    if (urls != null) {
+      for (URL url : urls) {
         if (url.getProtocol().equals("file")
-            && (url.getPath().endsWith("target/classes") || url.getPath().endsWith("target/classes/"))) {
+                && (url.getPath().endsWith("target/classes") || url.getPath().endsWith("target/classes/"))) {
           try {
             for (String p : RELATIVE_GWT_SOURCE_PATHS) {
               File dir = new File(new File(url.toURI()), p);
@@ -258,7 +288,7 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
                   sourcePaths.add(dir.getCanonicalFile().toURI().toURL());
                 } catch (IOException e) {
                   LOGGER.warn("Failed to turn guessed class path element {} into a URL: {} - ignoring it", dir,
-                      e.getMessage());
+                          e.getMessage());
                 }
               }
             }
