@@ -18,5 +18,8 @@ __Maven dependency__
         <version>1.1.1</version>
     </dependency>
 
+If you plan to use the devmode with Java 11 and above, you must supply the following JVM argument:
+`--add-opens java.base/jdk.internal.loader=ALL-UNNAMED`
+
 ## License
 This library is provided "as is" under the "three-clause BSD license". See [LICENSE.md](./LICENSE.md).
