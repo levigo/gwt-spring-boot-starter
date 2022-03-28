@@ -7,11 +7,20 @@ on:
     paths-ignore:
       # - '.github/**'
       - '**/README.md'
+env:
+  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  # As of Maven 3.3.0 instead of this you may define these options in `.mvn/maven.config` so the same config is used
+  # when running from the command line.
+  # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -23,19 +32,22 @@ jobs:
         release_branches: master
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    ## Enable Caching
-    - uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+    - name: Verify and print new build number
+      run: |
+        if echo '${{ steps.semanticversion.outputs.new_tag }}' |grep -Eq '^v[0-9]+[.][0-9]+[.][0-9]+$'; then 
+          echo Tag '${{ steps.semanticversion.outputs.new_tag }}', New version '${{ steps.semanticversion.outputs.new_version }}', Changelog '${{ steps.semanticversion.outputs.changelog }}'
+        else
+          echo 'unexpected tag format - aborting'
+          exit -1
+        fi
 
     ## Configure JDK 11
     - name: Set up JDK 11
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3
       with:
-        java-version: 11
+        distribution: 'temurin'
+        java-version: '11'
+        cache: 'maven'
 
     ## Build with maven
     - name: Prepare maven settings
@@ -49,22 +61,22 @@ jobs:
       id: version
       run: |
         echo Releasing as ${{ steps.semanticversion.outputs.new_version }}
-        mvn versions:set -DnewVersion=${{ steps.semanticversion.outputs.new_version }}
+        mvn $MAVEN_CLI_OPTS versions:set -DnewVersion=${{ steps.semanticversion.outputs.new_version }}
 
     - name: Perform build
-      run: mvn -B package --file pom.xml
+      run: mvn $MAVEN_CLI_OPTS package
 
     ## Deploy
     - name: Deploy package
       env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            REPOSITORY_URL: ${{ secrets.NEXUS2_REPO_RELEASES  }}
-            REPOSITORY_USERID: ${{ secrets.PUB_NEXUS2_USERNAME_RW }}
-            REPOSITORY_CREDENTIALS: ${{ secrets.PUB_NEXUS2_PASSWORD_RW }}
+            GPG_EXECUTABLE: gpg
+            GPG_SECRET_KEYS: ${{ secrets.LEVIGO_GPG_KEYS }}
+            GPG_OWNERTRUST: ${{ secrets.LEVIGO_GPG_OWNERTRUST }}
+            GPG_PASSPHRASE: ${{ secrets.LEVIGO_GPG_PASSPHRASE }}
       run: |
-        mkdir -p ~/.m2
-        echo "<settings><servers><server><id>neverpile</id><username>${REPOSITORY_USERID}</username><password>${REPOSITORY_CREDENTIALS}</password></server></servers></settings>" > ~/.m2/settings.xml 
-        mvn deploy -Dmaven.test.skip.exec=true -DaltDeploymentRepository=neverpile::default::${REPOSITORY_URL}
+        echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
+        echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
+        mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -U -Prelease
         
     ## Update README.md
     - name: Edit README.md to contain version number
@@ -85,15 +97,25 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         branch: master
-        github_token: ${{ secrets.GITHUB_TOKEN }}    
-        
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.semanticversion.outputs.new_version }}
+        release_name: Release ${{ steps.semanticversion.outputs.new_version }}
+
     ## Notify Slack
     - name: Notify slack
       uses: hennejg/slack-build-notifier@v1.1
       with:
         username: GitHub
         icon_emoji: octocat
-        text: Released new version `${{ steps.semanticversion.outputs.new_version }}` of *${{ github.repository }}* to ${{ secrets.REPOSITORY_URL }}
+        text: Released new version `${{ steps.semanticversion.outputs.new_version }}` of *${{ github.repository }}* to maven central
+        channel: ci_jwt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
