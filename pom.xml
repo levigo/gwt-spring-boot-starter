@@ -16,8 +16,9 @@
     <java.version>${version.java}</java.version>
     <maven.compiler.source>${version.java}</maven.compiler.source>
     <maven.compiler.target>${version.java}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>2.6.0</spring-boot.version>
+    <spring-boot.version>2.6.5</spring-boot.version>
     <gwt.version>2.9.0</gwt.version>
   </properties>
 
@@ -36,7 +37,7 @@
   <licenses>
     <license>
       <name>BSD 3-Clause License</name>
-      <url>http://opensource.org/licenses/BSD-3-Clause</url>
+      <url>https://opensource.org/licenses/BSD-3-Clause</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -68,7 +69,7 @@
     <developer>
       <name>Jörg Henne</name>
       <email>hennejg@gmail.com</email>
-      <organizationUrl>http://levigo.de</organizationUrl>
+      <organizationUrl>https://levigo.de</organizationUrl>
     </developer>
   </developers>
 
@@ -92,7 +93,7 @@
             <extensions>true</extensions>
             <configuration>
               <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
@@ -101,7 +102,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.1</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -115,7 +116,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.10.4</version>
+            <version>3.3.2</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -130,7 +131,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -140,6 +141,12 @@
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <gpgArguments>
+                <gpgArgument>--pinentry-mode</gpgArgument>
+                <gpgArgument>loopback</gpgArgument>
+              </gpgArguments>
+            </configuration>
           </plugin>
         </plugins>
       </build>
