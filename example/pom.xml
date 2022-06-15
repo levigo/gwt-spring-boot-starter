@@ -10,7 +10,7 @@
 	<artifactId>gwt-spring-boot-starter-example</artifactId>
 	<packaging>war</packaging>
 
-	<description>This demo illustrates the use of Jadice Web Toolkit in a Spring Boot application.</description>
+	<description>This demo illustrates the use of jadice web toolkit in a Spring Boot application.</description>
 
 	<dependencyManagement>
 		<dependencies>
@@ -62,7 +62,7 @@
 				<configuration>
 					<excludes>
 						<exclude>
-							<groupId>com.google.gwt</groupId>
+							<groupId>org.gwtproject</groupId>
 							<artifactId>gwt-user</artifactId>
 						</exclude>
 					</excludes>
@@ -76,7 +76,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-        <version>2.9.0</version>
+				<version>2.9.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -89,10 +89,11 @@
 					<!-- see https://github.com/gwt-maven-plugin/gwt-maven-plugin/blob/master/src/site/apt/user-guide/compile.apt.vm -->
 					<inplace>true</inplace>
 					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
+					<sourceLevel>11</sourceLevel>
 				</configuration>
 				<dependencies>
 					<dependency>
-						<groupId>com.google.gwt</groupId>
+						<groupId>org.gwtproject</groupId>
 						<artifactId>gwt-user</artifactId>
 						<version>${gwt.version}</version>
 					</dependency>
@@ -100,7 +101,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
-        <version>3.1.0</version>
+				<version>3.1.0</version>
 				<configuration>
 					<filesets>
 						<fileset>
