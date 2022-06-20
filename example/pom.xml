@@ -74,9 +74,9 @@
 				<version>3.3.2</version>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.9.0</version>
+				<version>1.0.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -86,9 +86,9 @@
 				</executions>
 				<configuration>
 					<failOnError>true</failOnError>
+					<moduleName>org.jadice.gwt.spring.demo.Application</moduleName>
+					<moduleShortName>springdemo</moduleShortName>
 					<!-- see https://github.com/gwt-maven-plugin/gwt-maven-plugin/blob/master/src/site/apt/user-guide/compile.apt.vm -->
-					<inplace>true</inplace>
-					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
 					<sourceLevel>11</sourceLevel>
 				</configuration>
 				<dependencies>
