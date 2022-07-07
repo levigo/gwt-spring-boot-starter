@@ -138,11 +138,11 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
 
       // copy configuration properties
       options.setOutput(config.getOutput());
-      
+
       // FIXME: perform dynamic allocation
       options.setCodeServerPort(9876);
       options.setGenerateJsInteropExports(config.isGenerateJsInteropExports());
-      
+
       System.setProperty("gwt.codeserver.port", "9876");
 
       setHeadless(true);
@@ -241,7 +241,7 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
       LOGGER.error("No GWT modules detected. Consider declaring EnableGWTSpringBootApplication on a bean");
       throw new IllegalArgumentException("No GWT modules detected. Consider declaring EnableGWTSpringBootApplication on a bean");
     }
-      
+
     ArrayList<URL> sourcePaths = new ArrayList<>();
 
     ClassLoader stdClassLoader = getClass().getClassLoader();
@@ -259,7 +259,6 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
     // module.
 
     if (stdClassLoader instanceof URLClassLoader) { // Java 8
-      @SuppressWarnings("resource")
       URLClassLoader ucl = (URLClassLoader) stdClassLoader;
       urls = ucl.getURLs();
 
@@ -271,6 +270,14 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
 
         // Who thought it was a good idea to relocate URLClassPath over JDKs?
         urls = (URL[]) ucp.getClass().getDeclaredMethod("getURLs").invoke(ucp);
+      } catch (NoSuchFieldException nfe) { // Java 17
+        stdClassLoader = Thread.currentThread().getContextClassLoader();
+        if (stdClassLoader instanceof URLClassLoader) {
+          URLClassLoader ucl = (URLClassLoader) stdClassLoader;
+          urls = ucl.getURLs();
+        } else {
+          throw new RuntimeException("Unexpected ContextClassLoader: " + stdClassLoader.getClass().getName());
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -324,7 +331,7 @@ public class DevModeLauncher extends WebMvcConfigurerAdapter {
   public DevModeLauncher(final DevModeConfiguration config) {
     this.config = config;
   }
-  
+
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     for (String moduleName : devMode.getLoadedModules()) {
