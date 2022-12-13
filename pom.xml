@@ -30,6 +30,21 @@
     <module>starter</module>
   </modules>
 
+  <repositories>
+    <repository>
+      <!-- For the GWT-Jakarta dependencies until official GWT provides those -->
+      <id>GWTSnapshot</id>
+      <name>Vertispan GWT Snapshot Repo</name>
+      <url>https://repo.vertispan.com/gwt-snapshot/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
   <scm>
     <connection>scm:git:https://github.com/levigo/gwt-spring-boot-starter.git</connection>
     <url>https://github.com/levigo/gwt-spring-boot-starter</url>
