@@ -17,7 +17,7 @@ __Maven dependency__
     <dependency>
         <groupId>org.jadice.gwt.spring</groupId>
         <artifactId>gwt-spring-boot-starter</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.2</version>
     </dependency>
 
 If you plan to use the devmode with Java 11 and above, you must supply the following JVM argument:
