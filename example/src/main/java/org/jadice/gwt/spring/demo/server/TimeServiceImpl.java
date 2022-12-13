@@ -2,7 +2,7 @@ package org.jadice.gwt.spring.demo.server;
 
 import java.util.Date;
 
-import javax.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.WebServlet;
 
 import org.jadice.gwt.spring.demo.client.TimeService;
 

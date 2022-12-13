@@ -16,9 +16,9 @@ package org.jadice.gwt.spring.autoconfig;
 
 import java.util.Map;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -30,7 +30,7 @@ import org.springframework.util.StringUtils;
 /**
  * Handler for {@link WebServlet}-annotated classes.
  *
- * This class ist in large parts a copy of {@link WebServletHandler} which isn't extensible,
+ * This class ist in large parts a copy of Springs WebServletHandler which isn't extensible,
  * unfortunately.
  */
 class GWTRPCWebServletHandler extends GWTRPCServletComponentHandler {

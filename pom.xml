@@ -18,15 +18,16 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>2.7.6</spring-boot.version>
-    <gwt.version>2.10.0</gwt.version>
+    <spring-boot.version>3.0.0</spring-boot.version>
+    <gwt-user.version>2.11.0-levigo</gwt-user.version>
+    <gwt-servlet.version>2.11.0-levigo</gwt-servlet.version>
+    <gwt-dev.version>2.10.0</gwt-dev.version>
   </properties>
 
   <modules>
     <module>bom</module>
     <module>example</module>
     <module>starter</module>
-    <module>devmode</module>
   </modules>
 
   <scm>
