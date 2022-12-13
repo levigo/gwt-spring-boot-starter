@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/levigo/gwt-spring-boot-starter/workflows/Continuous%20Delivery/badge.svg)](https://github.com/levigo/gwt-spring-boot-starter/actions)
 [![Docker Hub](https://img.shields.io/badge/MADE%20with-JAVA-RED.svg)](#JAVA)
-[![Generic badge](https://img.shields.io/badge/current%20version-1.4.1-1abc9c.svg)](https://github.com/levigo/gwt-spring-boot-starter/tree/v1.4.1)
+[![Generic badge](https://img.shields.io/badge/current%20version-2.0.2-1abc9c.svg)](https://github.com/levigo/gwt-spring-boot-starter/tree/v2.0.2)
 
 # A Spring-Boot Starter for Google Web Toolkit (GWT) applications
 
