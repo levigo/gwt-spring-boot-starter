@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
-  <name>gwt-spring-boot-starter</name>
+  <name>gwt-spring-boot-starter-root</name>
   <description>A Spring-Boot Starter for Google Web Toolkit (GWT) applications</description>
   <url>https://github.com/levigo/gwt-spring-boot-starter</url>
 
@@ -19,8 +19,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <spring-boot.version>3.0.0</spring-boot.version>
-    <gwt-user.version>2.11.0-levigo</gwt-user.version>
-    <gwt-servlet.version>2.11.0-levigo</gwt-servlet.version>
+    <gwt-user.version>2.10.0</gwt-user.version>
+    <gwt-servlet.version>2.11.0-jakarta-SNAPSHOT</gwt-servlet.version>
     <gwt-dev.version>2.10.0</gwt-dev.version>
   </properties>
 
@@ -31,8 +31,8 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/levigo/url-crypto-kit.git</connection>
-    <url>https://github.com/levigo/url-crypto-kit</url>
+    <connection>scm:git:https://github.com/levigo/gwt-spring-boot-starter.git</connection>
+    <url>https://github.com/levigo/gwt-spring-boot-starter</url>
   </scm>
 
   <licenses>

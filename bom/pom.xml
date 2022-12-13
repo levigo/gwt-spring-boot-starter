@@ -10,6 +10,21 @@
 	<artifactId>gwt-spring-boot-starter-bom</artifactId>
 	<packaging>pom</packaging>
 
+	<repositories>
+		<repository>
+			<!-- For the GWT-Jakarta dependencies until official GWT provides those -->
+			<id>GWTSnapshot</id>
+			<name>Vertispan GWT Snapshot Repo</name>
+			<url>https://repo.vertispan.com/gwt-snapshot/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -41,7 +56,8 @@
 			</dependency>
 			<dependency>
 				<groupId>org.gwtproject</groupId>
-				<artifactId>gwt-servlet</artifactId>
+				<artifactId>gwt-servlet-jakarta</artifactId>
+<!--				<artifactId>gwt-servlet</artifactId>-->
 				<version>${gwt-servlet.version}</version>
 			</dependency>
 			<dependency>
