@@ -5,7 +5,6 @@ on:
     branches:
       - master
     paths-ignore:
-      # - '.github/**'
       - '**/README.md'
 env:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
@@ -49,14 +48,6 @@ jobs:
         java-version: '17'
         cache: 'maven'
 
-    ## Build with maven
-    - name: Prepare maven settings
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        mkdir -p ~/.m2
-        echo "<settings><servers><server><id>github</id><username>x-access-token</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml 
-
     - name: Set version
       id: version
       run: |
@@ -69,12 +60,15 @@ jobs:
     ## Deploy
     - name: Deploy package
       env:
-            GPG_EXECUTABLE: gpg
-            GPG_SECRET_KEYS: ${{ secrets.LEVIGO_GPG_KEYS }}
-            GPG_OWNERTRUST: ${{ secrets.LEVIGO_GPG_OWNERTRUST }}
-            GPG_PASSPHRASE: ${{ secrets.LEVIGO_GPG_PASSPHRASE }}
-            SONATYPE_USERNAME: ${{ secrets.LEVIGO_SONATYPE_USERNAME }}
-            SONATYPE_PASSWORD: ${{ secrets.LEVIGO_SONATYPE_PASSWORD }}
+        GPG_EXECUTABLE: gpg
+        GPG_SECRET_KEYS: ${{ secrets.LEVIGO_GPG_KEYS }}
+        GPG_OWNERTRUST: ${{ secrets.LEVIGO_GPG_OWNERTRUST }}
+        GPG_PASSPHRASE: ${{ secrets.LEVIGO_GPG_PASSPHRASE }}
+        SONATYPE_USERNAME: ${{ secrets.LEVIGO_SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.LEVIGO_SONATYPE_PASSWORD }}
+        REPOSITORY_URL: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_URL }}
+        REPOSITORY_USERID: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_USER }}
+        REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
       run: |
         echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
         echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
