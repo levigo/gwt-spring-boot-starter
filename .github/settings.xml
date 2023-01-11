@@ -7,6 +7,11 @@
       <username>${env.SONATYPE_USERNAME}</username>
       <password>${env.SONATYPE_PASSWORD}</password>
     </server>
+    <server>
+      <id>nexus</id>
+      <username>${env.REPOSITORY_USERID}</username>
+      <password>${env.REPOSITORY_CREDENTIALS}</password>
+    </server>
   </servers>
 
   <profiles>
@@ -21,6 +26,56 @@
         <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
       </properties>
     </profile>
+    <!-- Profile for levigo oss artifacts -->
+    <profile>
+      <id>central-nexus</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>maven-central</id>
+          <url>https://repo.maven.apache.org/maven2/</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+        </repository>
+        <repository>
+          <id>nexus</id>
+          <url>${env.REPOSITORY_URL}</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>maven-central</id>
+          <url>https://repo.maven.apache.org/maven2/</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+        </pluginRepository>
+        <pluginRepository>
+          <id>nexus</id>
+          <url>${env.REPOSITORY_URL}</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
   </profiles>
 </settings>
-
