@@ -55,7 +55,11 @@ jobs:
         mvn $MAVEN_CLI_OPTS versions:set -DnewVersion=${{ steps.semanticversion.outputs.new_version }}
 
     - name: Perform build
-      run: mvn $MAVEN_CLI_OPTS package
+      env:
+        REPOSITORY_URL: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_URL }}
+        REPOSITORY_USERID: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_USER }}
+        REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
+      run: mvn $MAVEN_CLI_OPTS package --settings .github/settings.xml
 
     ## Deploy
     - name: Deploy package
