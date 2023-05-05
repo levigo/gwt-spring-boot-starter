@@ -18,7 +18,7 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>3.0.1</spring-boot.version>
+    <spring-boot.version>3.0.6</spring-boot.version>
     <gwt-user.version>2.10.0</gwt-user.version>
     <gwt-servlet.version>2.10.0</gwt-servlet.version>
     <gwt-dev.version>2.10.0</gwt-dev.version>
