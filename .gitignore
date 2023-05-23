@@ -34,7 +34,7 @@ gwt-unitCache/
 *.DS_Store
 
 ######################
-# IntelliJ
+# IntelliJ Idea
 ######################
 .idea/**
 *.iml
