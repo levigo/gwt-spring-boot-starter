@@ -17,9 +17,10 @@ env:
 
 jobs:
   mainJob:
-
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      releaseVersion: ${{ steps.semanticversion.outputs.new_version }}
 
     steps:
     - uses: actions/checkout@v3
