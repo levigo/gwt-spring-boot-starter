@@ -22,32 +22,33 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    ## Configure JDK 17
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'maven'
+      ## Configure JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
 
-    ## Build with maven
-    - name: Perform build
-      env:
-        REPOSITORY_URL: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_URL }}
-        REPOSITORY_USERID: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_USER }}
-        REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
-      run: mvn verify --settings .github/settings.xml
+      ## Build with maven
+      - name: Perform build
+        env:
+          REPOSITORY_URL: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_URL }}
+          REPOSITORY_USERID: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_USER }}
+          REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
+        run: mvn verify --settings .github/settings.xml
 
-    ## Notify Slack
-    - name: Notify slack
-      uses: hennejg/slack-build-notifier@v1.1
-      with:
-        username: GitHub
-        icon_emoji: octocat
-        channel: ci_jwt
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: always()
+      - name: Notify Developers
+        uses: 8398a7/action-slack@v3
+        with:
+          username: GitHub
+          icon_emoji: octocat
+          channel: ci_jwt
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref
+          text: ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ github.actor != 'dependabot[bot]' }}
