@@ -16,7 +16,7 @@ env:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 jobs:
-  build:
+  mainJob:
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
