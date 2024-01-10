@@ -29,19 +29,19 @@
 
 			<!-- General GWT dependencies -->
 			<dependency>
-				<groupId>org.jadice.gwtproject</groupId>
+				<groupId>org.gwtproject</groupId>
 				<artifactId>gwt-servlet-jakarta</artifactId>
-				<version>${gwt-servlet.version}</version>
+				<version>${gwt.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jadice.gwtproject</groupId>
-				<artifactId>gwt-user-jakarta</artifactId>
-				<version>${gwt-user.version}</version>
+				<groupId>org.gwtproject</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.gwtproject</groupId>
 				<artifactId>gwt-dev</artifactId>
-				<version>${gwt-dev.version}</version>
+				<version>${gwt.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.eclipse.jetty</groupId>
@@ -68,7 +68,7 @@
 			<dependency>
 				<groupId>org.gwtproject</groupId>
 				<artifactId>gwt-codeserver</artifactId>
-				<version>${gwt-dev.version}</version>
+				<version>${gwt.version}</version>
 			</dependency>
 
 			<!-- CodeServer-Jetty -->
