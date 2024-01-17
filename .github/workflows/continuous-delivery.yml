@@ -1,12 +1,13 @@
 name: Continuous Delivery
 
 on:
-  push:
-    branches:
-      - 'maintenance/maint-1x'
-    paths-ignore:
-      # - '.github/**'
-      - '**/README.md'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The maintenance version to build'
+        required: true
+        type: string
+
 env:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
@@ -28,21 +29,11 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-tags: true
-        fetch-depth: 10
-
-    - name: Bump version and create tag
-      id: semantic_version
-      uses: mathieudutour/github-tag-action@v6.1
-      with:
-        release_branches: maintenance/maint-1x
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        tag_prefix: ${{ env.JWT_TAG_PREFIX }}
-
 
     - name: Verify and print new build number
       run: |
-        if echo '${{ steps.semanticversion.outputs.new_tag }}' |grep -Eq '^${{ env.JWT_TAG_PREFIX }}1[.][0-9]+[.][0-9]+$'; then 
-          echo Tag '${{ steps.semanticversion.outputs.new_tag }}', New version '${{ steps.semanticversion.outputs.new_version }}', Changelog '${{ steps.semanticversion.outputs.changelog }}'
+        if echo '${{ inputs.version }}' |grep -Eq '^${{ env.JWT_TAG_PREFIX }}1[.][0-9]+[.][0-9]+$'; then 
+          echo Tag '${{ inputs.version }}', New version '${{ steps.semanticversion.outputs.new_version }}', Changelog '${{ steps.semanticversion.outputs.changelog }}'
         else
           echo 'unexpected tag format - aborting'
           exit -1
@@ -92,20 +83,21 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout master
+        git checkout maintenance/maint-1x
         git reset --hard HEAD      
 
         sed -ri "s,<version>.*</version>,<version>${{ steps.semanticversion.outputs.new_version }}</version>," README.md
         sed -ri "s,version-[0-9a-z.]+-,version-${{ steps.semanticversion.outputs.new_version }}-," README.md 
-        sed -ri "s,gwt-spring-boot-starter/tree/[0-9a-z.]+,gwt-spring-boot-starter/tree/${{ steps.semanticversion.outputs.new_tag }}," README.md
+        sed -ri "s,gwt-spring-boot-starter/tree/[0-9a-z.]+,gwt-spring-boot-starter/tree/${{ inputs.version }}," README.md
 
         git add README.md
         git commit -m "Edit README.md to contain correct version"
+        git tag maintenance_1_x-/${{ steps.semanticversion.outputs.new_tag }}
       
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        branch: master
+        branch: maintenance/maint-1x
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release
@@ -114,8 +106,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.semanticversion.outputs.new_version }}
-        release_name: Release ${{ steps.semanticversion.outputs.new_version }}
+        tag_name: ${{ inputs.version }}
+        release_name: Release ${{ inputs.version }}
 
     ## Notify Slack
     - name: Notify slack
@@ -123,7 +115,7 @@ jobs:
       with:
         username: GitHub
         icon_emoji: octocat
-        text: Released new version `${{ steps.semanticversion.outputs.new_version }}` of *${{ github.repository }}* to maven central
+        text: Released new version `${{ inputs.version }}` of *${{ github.repository }}* to maven central
         channel: ci_jwt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
