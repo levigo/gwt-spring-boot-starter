@@ -1,0 +1,20 @@
+name: Manual Integration - maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The maintenance version to build'
+        required: true
+        type: string
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: error message
+        run:
+          echo "only to be used in the maintenance branch"
