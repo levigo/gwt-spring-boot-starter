@@ -24,14 +24,14 @@
 	<dependencies>
 		<!-- General GWT dependencies -->
 		<dependency>
-			<groupId>org.jadice.gwtproject</groupId>
+			<groupId>org.gwtproject</groupId>
 			<artifactId>gwt-servlet-jakarta</artifactId>
-			<version>${gwt-servlet.version}</version>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jadice.gwtproject</groupId>
-			<artifactId>gwt-user-jakarta</artifactId>
-			<version>${gwt-user.version}</version>
+			<groupId>org.gwtproject</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
 		</dependency>
 
 		<!-- Spring -->
