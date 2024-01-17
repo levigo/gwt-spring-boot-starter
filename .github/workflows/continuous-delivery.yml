@@ -1,9 +1,9 @@
 name: Continuous Delivery
 
-on: 
+on:
   push:
     branches:
-      - master
+      - 'maintenance/maint-1x'
     paths-ignore:
       # - '.github/**'
       - '**/README.md'
