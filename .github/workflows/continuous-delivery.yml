@@ -27,8 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch_tags: true
-        fetch-depth: 40
+        fetch-tags: true
 
     - name: Bump version and create tag
       id: semantic_version
