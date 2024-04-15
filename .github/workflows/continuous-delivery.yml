@@ -96,7 +96,7 @@ jobs:
           -d '{"event_type":"release_created","client_payload":{"version":"${{ steps.semanticversion.outputs.new_version }}"}}'
 
     - name: Notify Developers
-      uses: 8398a7/action-slack@v4
+      uses: 8398a7/action-slack@v3
       with:
         username: GitHub
         icon_emoji: octocat
