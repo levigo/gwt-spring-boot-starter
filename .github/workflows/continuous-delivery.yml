@@ -23,11 +23,11 @@ jobs:
       releaseVersion: ${{ steps.semanticversion.outputs.new_version }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Bump version and create tag
       id: semanticversion
-      uses: mathieudutour/github-tag-action@v6.1
+      uses: mathieudutour/github-tag-action@v6.2
       with:
         release_branches: master
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -41,9 +41,8 @@ jobs:
           exit -1
         fi
 
-    ## Configure JDK 17
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
@@ -62,7 +61,6 @@ jobs:
         REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
       run: mvn $MAVEN_CLI_OPTS package --settings .github/settings.xml
 
-    ## Deploy
     - name: Deploy package
       env:
         GPG_EXECUTABLE: gpg
@@ -80,7 +78,7 @@ jobs:
         mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -U -Prelease
 
     - name: create release and upload release asset
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         name: Release ${{ steps.semanticversion.outputs.new_tag }}
         tag_name: ${{ steps.semanticversion.outputs.new_tag }}
@@ -98,7 +96,7 @@ jobs:
           -d '{"event_type":"release_created","client_payload":{"version":"${{ steps.semanticversion.outputs.new_version }}"}}'
 
     - name: Notify Developers
-      uses: 8398a7/action-slack@v3
+      uses: 8398a7/action-slack@v4
       with:
         username: GitHub
         icon_emoji: octocat
@@ -108,13 +106,13 @@ jobs:
         text: ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      # vermutlich muss man das personal access token der Action übergeben, damit diese nach mattermost
-      # funken darf. Alternativ wie unten einstellen, sodass bei dependabot PRs nichts passiert.
+      # you probably have to pass the personal access token to the action so that it can send to mattermost.
+      # Alternatively, set as below so that nothing happens with dependabot PRs.
       if: ${{ github.actor != 'dependabot[bot]' }}
 
   updateReadme:
     needs: mainJob
-    uses: levigo/reusable-workflows/.github/workflows/update-readme-md.yml@v3
+    uses: levigo/reusable-workflows-pub/.github/workflows/update-readme-md.yml@v1
     secrets: inherit
     with:
       releaseVersion: ${{ needs.mainJob.outputs.releaseVersion }}
