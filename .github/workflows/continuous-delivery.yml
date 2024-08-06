@@ -93,16 +93,20 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/dispatches \
           -d '{"event_type":"release_created","client_payload":{"version":"${{ steps.semanticversion.outputs.new_version }}"}}'
 
-  ## Notify developers
-  notifyMattermost:
-    if: failure()
-    needs: mainJob
-    uses: levigo/reusable-workflows/.github/workflows/notify-mattermost.yml@latest
-    secrets: inherit
-    with:
-      mattermostChannel: ci_jwt
-      text: Failed to release new version `${{ needs.main_build.outputs.releaseVersion }}` of *${{ github.repository }}*
-      continueOnErrorGlobal: true
+    - name: Notify Developers
+      uses: 8398a7/action-slack@v3
+      with:
+        username: GitHub
+        icon_emoji: octocat
+        channel: ci_jwt
+        status: ${{ job.status }}
+        fields: repo,message,commit,author,action,eventName,ref
+        text: ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # you probably have to pass the personal access token to the action so that it can send to mattermost.
+      # Alternatively, set as below so that nothing happens with dependabot PRs.
+      if: ${{ github.actor != 'dependabot[bot]' }}
 
   updateReadme:
     needs: mainJob
