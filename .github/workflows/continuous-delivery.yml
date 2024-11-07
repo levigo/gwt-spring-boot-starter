@@ -107,10 +107,3 @@ jobs:
       # you probably have to pass the personal access token to the action so that it can send to mattermost.
       # Alternatively, set as below so that nothing happens with dependabot PRs.
       if: ${{ github.actor != 'dependabot[bot]' }}
-
-  updateReadme:
-    needs: mainJob
-    uses: levigo/reusable-workflows-pub/.github/workflows/update-readme-md.yml@v1
-    secrets: inherit
-    with:
-      releaseVersion: ${{ needs.mainJob.outputs.releaseVersion }}
