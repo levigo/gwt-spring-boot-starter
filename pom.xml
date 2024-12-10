@@ -18,8 +18,8 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>3.3.3</spring-boot.version>
-    <gwt.version>2.11.0</gwt.version>
+    <spring-boot.version>3.4.0</spring-boot.version>
+    <gwt.version>2.12.1</gwt.version>
   </properties>
 
   <modules>
@@ -28,22 +28,7 @@
     <module>starter</module>
   </modules>
 
-  <repositories>
-    <repository>
-      <!-- For the GWT-Jakarta dependencies until official GWT provides those -->
-      <id>GWTSnapshot</id>
-      <name>Vertispan GWT Snapshot Repo</name>
-      <url>https://repo.vertispan.com/gwt-snapshot/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
-  <scm>
+   <scm>
     <connection>scm:git:https://github.com/levigo/gwt-spring-boot-starter.git</connection>
     <url>https://github.com/levigo/gwt-spring-boot-starter</url>
   </scm>
@@ -116,7 +101,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.3.1</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -130,7 +115,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.2</version>
+            <version>3.11.2</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -145,7 +130,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.0</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
