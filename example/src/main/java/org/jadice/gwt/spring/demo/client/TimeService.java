@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("time")
 public interface TimeService extends RemoteService {
-  public static class TimeResponse implements Serializable {
+  class TimeResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public TimeResponse() {

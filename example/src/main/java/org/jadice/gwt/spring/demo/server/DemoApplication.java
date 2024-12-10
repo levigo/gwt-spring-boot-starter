@@ -20,7 +20,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 
-// Activate GWT support specifiying the GWT module name for the entry point
+// Activate GWT support specifying the GWT module name for the entry point
 @EnableGWTSpringBootApplication("org.jadice.gwt.spring.demo.Application")
 
 // Activate scanning for RPC service servlets so that TimeServiceImpl is picked up
