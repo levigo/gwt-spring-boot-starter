@@ -6,7 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 
 import org.jadice.gwt.spring.demo.client.TimeService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.user.server.rpc.jakarta.RemoteServiceServlet;
+
 
 // Expose the RPC service at the desired URL
 @WebServlet(urlPatterns = "/springdemo/time")

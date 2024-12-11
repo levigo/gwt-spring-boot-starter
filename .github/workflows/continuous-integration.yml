@@ -50,4 +50,4 @@ jobs:
           text: ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: ${{ github.actor != 'dependabot[bot]' }}
+        if: failure()

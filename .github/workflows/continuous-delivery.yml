@@ -104,6 +104,4 @@ jobs:
         text: ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      # you probably have to pass the personal access token to the action so that it can send to mattermost.
-      # Alternatively, set as below so that nothing happens with dependabot PRs.
-      if: ${{ github.actor != 'dependabot[bot]' }}
+      if: failure()
