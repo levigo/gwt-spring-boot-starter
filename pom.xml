@@ -18,8 +18,8 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>3.4.0</spring-boot.version>
-    <gwt.version>2.12.1</gwt.version>
+    <spring-boot.version>3.4.3</spring-boot.version>
+    <gwt.version>2.12.2</gwt.version>
   </properties>
 
   <modules>
