@@ -7,8 +7,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>gwt-spring-boot-starter-bom</artifactId>
-	<packaging>pom</packaging>
+  <artifactId>gwt-spring-boot-starter-bom</artifactId>
+  <name>gwt-spring-boot-starter-bom</name>
+  <packaging>pom</packaging>
 
 	<dependencyManagement>
 		<dependencies>
@@ -72,22 +73,26 @@
 			</dependency>
 
 			<!-- CodeServer-Jetty -->
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-servlets</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-servlet</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-server</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-http</artifactId>
-			</dependency>
-		</dependencies>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlets</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-http</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+    </dependencies>
 	</dependencyManagement>
 </project>

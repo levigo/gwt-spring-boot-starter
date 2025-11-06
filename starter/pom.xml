@@ -7,9 +7,10 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>gwt-spring-boot-starter</artifactId>
+  <artifactId>gwt-spring-boot-starter</artifactId>
+  <name>gwt-spring-boot-starter</name>
 
-	<dependencyManagement>
+  <dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.jadice.gwt.spring</groupId>

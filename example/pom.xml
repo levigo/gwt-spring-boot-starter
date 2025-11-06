@@ -7,8 +7,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>gwt-spring-boot-starter-example</artifactId>
-	<packaging>war</packaging>
+  <artifactId>gwt-spring-boot-starter-example</artifactId>
+  <name>gwt-spring-boot-starter-example</name>
+  <packaging>war</packaging>
 
 	<description>This demo illustrates the use of Jadice Web Toolkit in a Spring Boot application.</description>
 
