@@ -18,8 +18,12 @@
     <maven.compiler.target>${version.java}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring-boot.version>3.5.8</spring-boot.version>
     <gwt.version>2.12.2</gwt.version>
+
+    <!-- Attention! the jetty version must be the same as the one defined in the spring-boot bom-->
+    <spring-boot.version>3.5.8</spring-boot.version>
+    <jetty.version>12.0.30</jetty.version>
+
   </properties>
 
   <modules>
@@ -60,32 +64,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${spring-boot.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <version>1.7.3</version>
-        <configuration>
-          <flattenMode>bom</flattenMode>
-          <updatePomFile>true</updatePomFile>
-          <flattenDependencyMode>all</flattenDependencyMode>
-        </configuration>
-        <executions>
-          <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
