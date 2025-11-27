@@ -75,7 +75,7 @@ jobs:
       run: |
         echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
         echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
-        mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -U -Prelease
+        mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -Dmaven.install.skip=true -U -Prelease
 
     - name: create release and upload release asset
       uses: ncipollo/release-action@v1.14.0
