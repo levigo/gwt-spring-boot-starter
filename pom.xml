@@ -21,7 +21,7 @@
     <gwt.version>2.12.2</gwt.version>
 
     <!-- Attention! the jetty version must be the same as the one defined in the spring-boot bom-->
-    <spring-boot.version>3.5.8</spring-boot.version>
+    <spring-boot.version>3.5.10</spring-boot.version>
     <jetty.version>12.0.30</jetty.version>
 
   </properties>
