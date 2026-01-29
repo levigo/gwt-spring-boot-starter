@@ -12,7 +12,7 @@
   <url>https://github.com/levigo/gwt-spring-boot-starter</url>
 
   <properties>
-    <version.java>11</version.java>
+    <version.java>21</version.java>
     <java.version>${version.java}</java.version>
     <maven.compiler.source>${version.java}</maven.compiler.source>
     <maven.compiler.target>${version.java}</maven.compiler.target>
@@ -20,9 +20,8 @@
 
     <gwt.version>2.12.2</gwt.version>
 
-    <!-- Attention! the jetty version must be the same as the one defined in the spring-boot bom-->
-    <spring-boot.version>3.5.10</spring-boot.version>
-    <jetty.version>12.0.30</jetty.version>
+    <!-- Spring Boot 4 manages Jetty 12 EE11 via its BOM -->
+    <spring-boot.version>4.0.2</spring-boot.version>
 
   </properties>
 
