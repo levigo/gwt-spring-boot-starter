@@ -99,26 +99,22 @@
         <version>${gwt.version}</version>
       </dependency>
 
-      <!-- CodeServer-Jetty -->
+      <!-- CodeServer-Jetty (Jetty 12 EE11 modules, versions managed by Spring Boot BOM) -->
       <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-servlets</artifactId>
-        <version>${jetty.version}</version>
+        <groupId>org.eclipse.jetty.ee11</groupId>
+        <artifactId>jetty-ee11-servlets</artifactId>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-servlet</artifactId>
-        <version>${jetty.version}</version>
+        <groupId>org.eclipse.jetty.ee11</groupId>
+        <artifactId>jetty-ee11-servlet</artifactId>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-server</artifactId>
-        <version>${jetty.version}</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-http</artifactId>
-        <version>${jetty.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
