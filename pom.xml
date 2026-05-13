@@ -20,9 +20,9 @@
 
     <gwt.version>2.12.2</gwt.version>
 
-    <spring-boot.version>4.0.2</spring-boot.version>
+    <spring-boot.version>4.0.6</spring-boot.version>
     <!-- Attention! the jetty version must be the same as the one defined in the spring-boot bom-->
-    <jetty.version>12.1.5</jetty.version>
+    <jetty.version>12.1.8</jetty.version>
   </properties>
 
   <modules>
@@ -104,7 +104,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.0</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -133,7 +133,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.6</version>
+            <version>3.2.8</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
