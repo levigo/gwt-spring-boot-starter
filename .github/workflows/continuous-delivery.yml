@@ -73,8 +73,10 @@ jobs:
         REPOSITORY_USERID: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_USER }}
         REPOSITORY_CREDENTIALS: ${{ secrets.LEVIGO_OSS_MAVEN_REPO_PASSWORD }}
       run: |
-        echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
-        echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
+        echo "$GPG_SECRET_KEYS" -n | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
+        echo "imported key(s)"
+        echo "$GPG_OWNERTRUST" -n | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
+        echo "imported ownertrust"
         mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -Dmaven.install.skip=true -U -Prelease
 
     - name: create release and upload release asset
