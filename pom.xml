@@ -25,6 +25,7 @@
     <jetty.version>12.1.8</jetty.version>
   </properties>
 
+         <!-- test comment-->
   <modules>
     <module>bom</module>
     <module>example</module>
