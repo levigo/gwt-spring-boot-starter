@@ -23,11 +23,11 @@ jobs:
       releaseVersion: ${{ steps.semanticversion.outputs.new_version }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
     - name: Bump version and create tag
       id: semanticversion
-      uses: StackAdapt/github-tag-action@v7
+      uses: StackAdapt/github-tag-action@c39fa6d65cd3def233513f21ba395a09dbc92eea # v7
       with:
         release_branches: master
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,7 +42,7 @@ jobs:
         fi
 
     - name: Set up JDK 21
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
       with:
         distribution: 'temurin'
         java-version: '21'
@@ -75,9 +75,9 @@ jobs:
         mvn $MAVEN_CLI_OPTS deploy --settings .github/settings.xml -Dmaven.test.skip.exec=true -Dmaven.install.skip=true -U -Prelease
 
     - name: create release and upload release asset
-      uses: ncipollo/release-action@v1.21.0
+      uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
       with:
-        tag: ${{ steps.semanticversion.outputs.new_tag }}
+        tag_name: ${{ steps.semanticversion.outputs.new_tag }}
         name: Release ${{ steps.semanticversion.outputs.new_tag }}
 
     # the step above will NOT trigger a second workflow.
@@ -91,7 +91,7 @@ jobs:
           -d '{"event_type":"release_created","client_payload":{"version":"${{ steps.semanticversion.outputs.new_version }}"}}'
 
     - name: Notify developers
-      uses: slackapi/slack-github-action@v3.0.1
+      uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
       with:
         webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
         webhook-type: incoming-webhook
